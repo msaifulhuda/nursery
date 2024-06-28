@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nursery Recommendation Prediction</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f8ff; 
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #8EA7E9; 
+            font-weight: bold;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+        }
+        .btn-primary {
+            background-color: #8EA7E9; 
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #7286D3;
+        }
+        .form-control {
+            border: 2px solid #8EA7E9; 
+        }
+        .alert-info {
+            background-color: #FDFCE5;
+            color: #7286D3;
+            border: 1px solid #7286D3;
+        }
+        label {
+            color: #7286D3;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+        }
+        footer p{
+            color: #8EA7E9;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+        }
+        footer p a{
+            text-decoration: none;
+            color: #7286D3;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">
+            <i class="fas fa-child"></i> Nursery Recommendation Prediction
+        </h2>
+        <form action="/predict" method="POST" class="mt-4">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="parents"><i class="fas fa-people-arrows"></i> Parents</label>
+                    <select class="form-control" id="parents" name="parents">
+                        <option value="usual">Usual</option>
+                        <option value="pretentious">Pretentious</option>
+                        <option value="great_pret">Great Pretentious</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="has_nurs"><i class="fas fa-user-nurse"></i> Has Nursery</label>
+                    <select class="form-control" id="has_nurs" name="has_nurs">
+                        <option value="proper">Proper</option>
+                        <option value="less_proper">Less Proper</option>
+                        <option value="improper">Improper</option>
+                        <option value="critical">Critical</option>
+                        <option value="very_crit">Very Critical</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="form"><i class="fas fa-paste"></i> Form</label>
+                    <select class="form-control" id="form" name="form">
+                        <option value="complete">Complete</option>
+                        <option value="completed">Completed</option>
+                        <option value="incomplete">Incomplete</option>
+                        <option value="foster">Foster</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="children"><i class="fas fa-democrat"></i> Children</label>
+                    <select class="form-control" id="children" name="children">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="more">More</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="housing"><i class="fas fa-house-user"></i> Housing</label>
+                    <select class="form-control" id="housing" name="housing">
+                        <option value="convenient">Convenient</option>
+                        <option value="less_conv">Less Convenient</option>
+                        <option value="critical">Critical</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="finance"><i class="fas fa-money-bill"></i> Finance</label>
+                    <select class="form-control" id="finance" name="finance">
+                        <option value="convenient">Convenient</option>
+                        <option value="inconv">Inconvenient</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="social"><i class="fas fa-users"></i> Social</label>
+                    <select class="form-control" id="social" name="social">
+                        <option value="nonprob">Nonproblematic</option>
+                        <option value="slightly_prob">Slightly Problematic</option>
+                        <option value="problematic">Problematic</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="health"><i class="fas fa-stethoscope"></i> Health</label>
+                    <select class="form-control" id="health" name="health">
+                        <option value="recommended">Recommended</option>
+                        <option value="priority">Priority</option>
+                        <option value="not_recom">Not Recommended</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Predict</button>
+        </form>
+        
+        <!-- Display the prediction result -->
+        {% if prediction %}
+        <div class="alert alert-info mt-4" role="alert">
+            <h4 class="alert-heading">Prediction Result:</h4>
+            <p id="prediction">{{ prediction }}</p>
+        </div>
+        {% endif %}
+
+        <footer>
+            <p class="text-center mt-5">
+                Made with <i class="fas fa-heart"></i> by 
+                <a href="https://www.linkedin.com/in/muhammadsaifulhuda/" target="_blank">Muhammad Saiful Huda </a><a style="color: #7BD3EA;">| 22-041 | Penambangan Data</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript for translating the prediction result
+        document.addEventListener("DOMContentLoaded", function() {
+            const predictionElement = document.getElementById("prediction");
+            if (predictionElement) {
+                const translations = {
+                    "not_recom": "Not Recommend (Tidak direkomendasikan)",
+                    "priority": "Priority (Prioritas)",
+                    "recommend": "Recommend (Direkomendasikan)",
+                    "spec_prior": "Special Priority (Prioritas khusus)",
+                    "very_recom": "Very Recommend (Sangat direkomendasikan)"
+                };
+                const prediction = predictionElement.textContent.trim();
+                predictionElement.textContent = translations[prediction] || prediction;
+            }
+        });
+    </script>
+</body>
+</html>
